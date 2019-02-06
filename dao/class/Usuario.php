@@ -110,6 +110,42 @@ class Usuario{
             "dtcadastro"=>$this->getDtcadastro()
         ));
     }
+
+    public static function getList(){
+        $sql = new SQL();
+        return  $sql->select("SELECT * FROM tb_usuarios");
+    }
+
+    public static function search($login){
+        $sql = new SQL();
+        return  $sql->select("SELECT * FROM tb_usuarios WHERE desclogin LIKE :SEARCH ORDER BY desclogin", array(
+            ":SEARCH"=>"%" . $login . "%"
+        ));
+    }
+
+    public function login($user, $senha){
+
+        $sql = new SQL;
+       $result = $sql->select("SELECT * FROM tb_usuarios WHERE desclogin = :LOGIN and dessenha = :SENHA", array(
+           ":LOGIN"=>$user,
+           ":SENHA"=>$senha
+       ));
+
+       if(isset($result[0])){
+           $row = $result[0];
+
+           $this->setIdusuario($row['idusuario']);
+           $this->setDesclogin($row['desclogin']);
+           $this->setDessenha($row['dessenha']);
+           $this->setDtcadastro(new DateTime($row['dtcadastro']));
+       }
+
+       else{
+           throw new Exception("Login e/ou senha inválidos");
+           
+       }
+
+    }
 }
 
 ?>
