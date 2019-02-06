@@ -98,8 +98,17 @@ class Usuario{
            $this->setIdusuario($row['idusuario']);
            $this->setDesclogin($row['desclogin']);
            $this->setDessenha($row['dessenha']);
-           $this->setDtcadastro($row['dtcadastro']);
+           $this->setDtcadastro(new DateTime($row['dtcadastro']));
        }
+    }
+
+    public function __toString(){
+        return json_encode(array(
+            "idusuario"=>$this->getIdusuario(),
+            "desclogin"=>$this->getDesclogin(),
+            "dessenha"=>$this->getDessenha(),
+            "dtcadastro"=>$this->getDtcadastro()
+        ));
     }
 }
 
