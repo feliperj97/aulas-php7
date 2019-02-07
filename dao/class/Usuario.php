@@ -93,12 +93,7 @@ class Usuario{
        ));
 
        if(isset($result[0])){
-           $row = $result[0];
-
-           $this->setIdusuario($row['idusuario']);
-           $this->setDesclogin($row['desclogin']);
-           $this->setDessenha($row['dessenha']);
-           $this->setDtcadastro(new DateTime($row['dtcadastro']));
+            $this->setData($results[0]);
        }
     }
 
@@ -132,12 +127,8 @@ class Usuario{
        ));
 
        if(isset($result[0])){
-           $row = $result[0];
-
-           $this->setIdusuario($row['idusuario']);
-           $this->setDesclogin($row['desclogin']);
-           $this->setDessenha($row['dessenha']);
-           $this->setDtcadastro(new DateTime($row['dtcadastro']));
+        $this->setData($results[0]);
+          
        }
 
        else{
@@ -145,6 +136,27 @@ class Usuario{
            
        }
 
+    }
+
+    public function setData($data){
+         $this->setIdusuario($data['idusuario']);
+         $this->setDesclogin($data['desclogin']);
+         $this->setDessenha($data['dessenha']);
+         $this->setDtcadastro(new DateTime($data['dtcadastro']));
+    }
+
+    public function insert(){
+        $sql = new Sql();
+        $results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :SENHA)", array(
+
+            ':LOGIN'->$this->getDesclogin(),
+            ':PASSWORD'=>$this->getDessenha()
+
+        ));
+
+        if(count($results) > 0){
+            $this->setData($results[0]);
+        }
     }
 }
 
