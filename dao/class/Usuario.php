@@ -93,7 +93,7 @@ class Usuario{
        ));
 
        if(isset($result[0])){
-            $this->setData($results[0]);
+            $this->setData($result[0]);
        }
     }
 
@@ -147,9 +147,9 @@ class Usuario{
 
     public function insert(){
         $sql = new Sql();
-        $results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :SENHA)", array(
+        $results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
 
-            ':LOGIN'->$this->getDesclogin(),
+            ':LOGIN'=>$this->getDesclogin(),
             ':PASSWORD'=>$this->getDessenha()
 
         ));
@@ -158,6 +158,26 @@ class Usuario{
             $this->setData($results[0]);
         }
     }
+
+    public function update($login, $password){
+        $this->setDesclogin($login);
+        $this->setDessenha($password);
+        $sql = new SQL();
+        $sql->query("UPDATE TABLE tb_usuarios SET desclogin = :LOGIN, dessenha = :PASSWORD WHERE idusuario = :ID", array(
+            
+            ":LOGIN"=>$this->getDesclogin(),
+            ":PASSWORD"=>$this->getDessenha(),
+            ":ID"=>$this->getIdusuario()
+
+        ));
+    }
+
+    public function __construct($login = "", $password = ""){
+        $this->setDesclogin($login);
+        $this->setDessenha($password);
+    }
+
+
 }
 
 ?>

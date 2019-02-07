@@ -16,9 +16,19 @@ echo json_encode($lista); */
 //$search = Usuario::search("F");
 
 //echo json_encode($search);
+//$usuario = new Usuario();
+//$usuario->login("felipe", "$($($");
+//echo $usuario;
+
+/* $aluno = new Usuario("julia", "%$#");
+
+$aluno->insert();
+
+echo $aluno; */
+
 $usuario = new Usuario();
-$usuario->login("felipe", "$($($");
+$usuario->loadById(7);
+$usuario->update("Professor", "P00fr3550r");
 
 echo $usuario;
-
 ?>
